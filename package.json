@@ -1,0 +1,14 @@
+{
+  "name": "son-announcer",
+  "version": "0.0.1",
+  "description": "Son goal and assist announcer",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cau-ts-study",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
