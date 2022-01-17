@@ -34,9 +34,6 @@ jobs:
       - name: Run Build
         run: yarn build
 
-      - name: Run Tests
-        run: yarn test
-
       - name: if fail
         uses: actions/github-script@0.2.0
         with:
