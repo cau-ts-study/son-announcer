@@ -12,6 +12,7 @@
   "author": "cau-ts-study",
   "license": "MIT",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "nodemon": "^2.0.15"
   },
   "dependencies": {
@@ -19,6 +20,8 @@
     "@types/node": "^17.0.7",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
+    "axios": "^0.25.0",
+    "dotenv": "^14.2.0",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
