@@ -1,8 +1,8 @@
-import { ErrorMessage } from "../enitities/ErrorMessage";
-import { LineUp } from "../enitities/LineUp";
-import { MatchEvent } from "../enitities/MatchEvent";
-import { MatchStatistics } from "../enitities/MatchStatistics";
-import { UpcomingMatch } from "../enitities/UpcomingMatch";
+import { ErrorMessage } from "../entities/ErrorMessage";
+import { LineUp } from "../entities/LineUp";
+import { MatchEvent } from "../entities/MatchEvent";
+import { MatchStatistics } from "../entities/MatchStatistics";
+import { UpcomingMatch } from "../entities/UpcomingMatch";
 
 export default interface FootballDataGetter {
   getUpcomingMatch(team: number): Promise<UpcomingMatch | ErrorMessage>;

@@ -1,12 +1,12 @@
 import FootballDataGetter from "./interfaces/FootballDataGetter";
 import dotenv from "dotenv";
 import ApiHandler from "./interfaces/ApiHandler";
-import { UpcomingMatch } from "./enitities/UpcomingMatch";
-import { LineUp } from "./enitities/LineUp";
-import { ErrorMessage } from "./enitities/ErrorMessage";
-import { MatchEvent } from "./enitities/MatchEvent";
+import { UpcomingMatch } from "./entities/UpcomingMatch";
+import { LineUp } from "./entities/LineUp";
+import { ErrorMessage } from "./entities/ErrorMessage";
+import { MatchEvent } from "./entities/MatchEvent";
 import { resolve } from "path/posix";
-import { MatchStatistics } from "./enitities/MatchStatistics";
+import { MatchStatistics } from "./entities/MatchStatistics";
 
 interface Match {
   teams: { home: { id: number}, away: { id: number} }
