@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
-import app from "../config/express";
-import { webHookInit } from "../config/webhookConfig";
+import app from "./config/express";
+import { webHookInit } from "./config/webhookConfig";
 
 
 dotenv.config();
