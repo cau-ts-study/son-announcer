@@ -14,7 +14,7 @@ const exitChat = async (chatId: number) => {
     }
 };
 
-const sendEvents = async (events: EventParams, chatId: number) => {
+const sendPhoto = async (events: EventParams, chatId: number) => {
     const params = {
         chat_id: chatId,
         photo: events.url,
@@ -28,7 +28,7 @@ const sendEvents = async (events: EventParams, chatId: number) => {
     }
 }
 
-const sendLineups = async (events: EventParams, chatId: number) => {
+const sendMessage = async (events: EventParams, chatId: number) => {
     const params = {
         chat_id: chatId,
         text: events.content
@@ -43,6 +43,6 @@ const sendLineups = async (events: EventParams, chatId: number) => {
 
 export {
     exitChat,
-    sendEvents,
-    sendLineups,
+    sendPhoto,
+    sendMessage,
 }

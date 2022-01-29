@@ -14,7 +14,7 @@ export interface sendMessageAPIParams {
 
 export interface EventParams {
     [type: string]: {
-        url: string,
+        url?: string,
         content: string,
     }
 }
@@ -32,16 +32,6 @@ export enum FootballEvents {
     TRIPLE,
     QUADRUPLE,
     QUINTUPLE,
-}
-
-export class EventClass {
-    url: string;
-    caption: string;
-
-    constructor (url: string, caption: string) {
-        this.url = url;
-        this.caption = caption;
-    };
 }
 
 const SINGLE_URL = "https://img.khan.co.kr/news/2020/08/23/l_2020082401002530900204221.jpg";
