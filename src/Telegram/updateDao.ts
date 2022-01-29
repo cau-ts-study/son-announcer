@@ -1,45 +1,45 @@
 
 
-const getByUserId = async (connection: any, chatId: number) => {
+const getByChatId = async (connection: any, chatId: number) => {
     const query = `
-        SELECT userId 
-        FROM User
-        WHERE userId = ${chatId};
+        SELECT chat_id 
+        FROM Chat
+        WHERE chat_id = ${chatId};
     `;
     const [[chatIdRows]] = await connection.query(query);
     return chatIdRows;
 }
 
-const insertUserId = async (connection: any, chatId: number) => {
+const insertChatId = async (connection: any, chatId: number) => {
     const query = `
-        INSERT INTO User (userId)
+        INSERT INTO Chat (chat_id)
         VALUES (${chatId});
     `;
     const [chatIdRows] = await connection.query(query);
     return chatIdRows;
 }
 
-const getAllUserId = async (connection: any) => {
+const getAllChatId = async (connection: any) => {
     const query = `
-        SELECT userId
-        FROM User;
+        SELECT chat_id
+        FROM Chat;
     `;
-    const [userIdRows] = await connection.query(query);
-    return userIdRows;
+    const [chat_idRows] = await connection.query(query);
+    return chat_idRows;
 }
 
-const deleteUserId = async (connection: any, userId: number) => {
+const deleteChatId = async (connection: any, chat_id: number) => {
     const query = `
-        DELETE FROM User
-        WHERE userId = "${userId}";
+        DELETE FROM Chat
+        WHERE chat_id = "${chat_id}";
     `;
     
     await connection.query(query);
 }
 
 export default {
-    getByUserId,
-    insertUserId,
-    getAllUserId,
-    deleteUserId,
+    getByChatId,
+    insertChatId,
+    getAllChatId,
+    deleteChatId,
 }

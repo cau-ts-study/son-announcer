@@ -1,12 +1,12 @@
 import updateService from "./updateService";
 
 
-const insertUserId = async ( chatId : number ) => {
+const insertChatId = async ( chatId : number ) => {
     try {
-        const getChatIdRes = await updateService.getByUserId(chatId);
+        const getChatIdRes = await updateService.getByChatId(chatId);
         
         if (!getChatIdRes) {
-            await updateService.insertUserId(chatId);
+            await updateService.insertChatId(chatId);
             console.log("Successfully Inserted!");
         } else {
             console.log("already exists");
@@ -18,24 +18,24 @@ const insertUserId = async ( chatId : number ) => {
     }
 };
 
-const getAllUserId = async () => {
+const getAllChatId = async () => {
     try {
-        const getAllUserIdRes = await updateService.getAllUserId();
+        const getAllchatIdRes = await updateService.getAllChatId();
         
-        return getAllUserIdRes;
+        return getAllchatIdRes;
     } catch (err) {
         console.error(err);
     };
 }
 
-const deleteUserId = async ( chatId: number ) => {
+const deleteChatId = async ( chatId: number ) => {
     const userId: number = chatId;
 
     try {
-        const getChatIdRes = await updateService.getByUserId(userId);
+        const getChatIdRes = await updateService.getByChatId(userId);
         
         if (getChatIdRes) {
-            await updateService.deleteUserId(userId);
+            await updateService.deleteChatId(userId);
             console.log("Successfully deleted!");
         } else {
             console.log("User not exist");
@@ -47,7 +47,7 @@ const deleteUserId = async ( chatId: number ) => {
 
 
 export {
-    insertUserId,
-    getAllUserId,
-    deleteUserId,
+    insertChatId,
+    getAllChatId,
+    deleteChatId,
 }

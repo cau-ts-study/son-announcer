@@ -3,48 +3,48 @@ import updateDao from "./updateDao";
 
 
 
-const getByUserId = async (chatId: number) => {
+const getByChatId = async (chatId: number) => {
     try {
         const connection = await pool.getConnection();
-        const getUserIdRes = await updateDao.getByUserId(connection, chatId);
+        const getChatIdRes = await updateDao.getByChatId(connection, chatId);
         connection.release();
 
-        return getUserIdRes;
+        return getChatIdRes;
     } catch(err) {
         console.error(err);
     };
 };
 
-const insertUserId = async (chatId: number) => {
+const insertChatId = async (chatId: number) => {
     try {
         const connection = await pool.getConnection();
-        const insertUserIdRes = await updateDao.insertUserId(connection, chatId);
+        const insertChatIdRes = await updateDao.insertChatId(connection, chatId);
         connection.release();
 
-        return insertUserIdRes;
+        return insertChatIdRes;
     
     } catch (err) {
         console.error(err);
     }
 }
 
-const getAllUserId = async () => {
+const getAllChatId = async () => {
     try {
         const connection = await pool.getConnection();
-        const getAllUserIdRes = await updateDao.getAllUserId(connection);
+        const getAllChatIdRes = await updateDao.getAllChatId(connection);
         connection.release();
         
-        return getAllUserIdRes;
+        return getAllChatIdRes;
 
     } catch(err) {
         console.error(err);
     }
 }
 
-const deleteUserId = async (userId: number) => {
+const deleteChatId = async (userId: number) => {
     try {
         const connection = await pool.getConnection();
-        await updateDao.deleteUserId(connection, userId);
+        await updateDao.deleteChatId(connection, userId);
         connection.release();
         
     } catch(err) {
@@ -53,8 +53,8 @@ const deleteUserId = async (userId: number) => {
 }
 
 export default {
-    getByUserId,
-    insertUserId,
-    getAllUserId,
-    deleteUserId,
+    getByChatId,
+    insertChatId,
+    getAllChatId,
+    deleteChatId,
 };
