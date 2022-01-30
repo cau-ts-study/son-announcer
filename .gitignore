@@ -1,2 +1,22 @@
-#node_modules
-node_modules
+# Compiled Output
+dist/
+
+# node modules
+node_modules/
+
+# Logs 
+logs
+*.log
+
+# Tests
+
+
+# OS 
+.DS_Store
+
+# Secrets
+.env
+# config.*
+
+# IDE 
+.vscode/*
