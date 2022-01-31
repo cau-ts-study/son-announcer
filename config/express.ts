@@ -3,11 +3,12 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 
 import updateRoutes from "../src/Telegram/updateRoutes";
+import { ProcessEnv } from "./globalInterfaces";
 
 // envs
 dotenv.config();
-const { PORT, BOT_TOKEN } = process.env;
-const URI: string = `/webhook/${BOT_TOKEN}`;
+const { BOT_TOKEN } = process.env as ProcessEnv;
+const URI = `/webhook/${BOT_TOKEN}`;
 
 // express
 const app = express();

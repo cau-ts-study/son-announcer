@@ -1,12 +1,14 @@
 import axios from "axios";
 import dotenv from "dotenv";
 
+import { ProcessEnv } from "./globalInterfaces";
+
 dotenv.config();
 
-const { NGROK_URL, PORT, BOT_TOKEN } = process.env;
-const TELEGRAM_API: string = `https://api.telegram.org/bot${BOT_TOKEN}`;
+const { NGROK_URL, BOT_TOKEN } = process.env as ProcessEnv;
+const TELEGRAM_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
-const URI: string = `/webhook/${BOT_TOKEN}`;
+const URI = `/webhook/${BOT_TOKEN}`;
 const WEBHOOK_URL: string = NGROK_URL + URI;
 
 export const webHookInit = async () => {
