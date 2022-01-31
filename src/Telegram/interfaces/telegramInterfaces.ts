@@ -2,7 +2,7 @@
 export interface Update {
   update_id: number;
   message?: Message;
-  edited_message?: EditedMessage;
+  // edited_message?: EditedMessage;
   my_chat_member?: ChatMemberUpdated;
 }
 
@@ -16,7 +16,7 @@ export interface Message {
   caption?: string;
 }
 
-export interface EditedMessage {}
+// export interface EditedMessage {}
 
 export interface ChatMemberUpdated {
   chat: Chat;
@@ -85,18 +85,4 @@ export enum MemberStatus {
   RESTRICTED = "restricted",
   LEFT = "left",
   BANNED = "kicked",
-}
-
-interface EVENT_PARAMS {
-  EVENT_TYPE: LINEUP | RATING | FIXTURE;
-}
-
-interface LINEUP {}
-
-interface RATING {}
-
-interface FIXTURE {
-  TYPE: {
-    GOAL: number;
-  };
 }

@@ -45,25 +45,25 @@ enum EVENT_TYPE {
   FIXTURE = "FIXTURE",
 }
 
-const handler = (event: EVENT) => {
-  switch (event.type) {
-    case EVENT_TYPE.LINEUP:
-      lineupHandler(event.content as LINEUP);
-      break;
-    case EVENT_TYPE.RATING:
-      ratingHandler(event.content as RATING);
-      break;
-    case EVENT_TYPE.FIXTURE:
-      fixtureHandler(event.content as FIXTURE);
-      break;
-  }
-};
+// const handler = (event: EVENT) => {
+//   switch (event.type) {
+//     case EVENT_TYPE.LINEUP:
+//       lineupHandler(event.content as LINEUP);
+//       break;
+//     case EVENT_TYPE.RATING:
+//       ratingHandler(event.content as RATING);
+//       break;
+//     case EVENT_TYPE.FIXTURE:
+//       fixtureHandler(event.content as FIXTURE);
+//       break;
+//   }
+// };
 
-const lineupHandler = (lineup: LINEUP) => {};
+// const lineupHandler = (lineup: LINEUP): void => {};
 
-const ratingHandler = (rating: RATING) => {};
+// const ratingHandler = (rating: RATING): void => {};
 
-const fixtureHandler = (fixture: FIXTURE) => {};
+// const fixtureHandler = (fixture: FIXTURE): void => {};
 
 const EVENT_MESSAGE = {
   // LINEUP EVENTS
