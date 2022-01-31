@@ -1,38 +1,40 @@
-const getByChatId = async (connection: any, chatId: number) => {
+import { PoolConnection } from "mysql2/typings/mysql";
+
+const getByChatId = (connection: PoolConnection, chatId: number) => {
   const query = `
         SELECT chat_id 
         FROM Chat
         WHERE chat_id = ${chatId};
     `;
-  const [[chatIdRows]] = await connection.query(query);
+
+  const chatIdRows = connection.query(query);
   return chatIdRows;
 };
 
-const insertChatId = async (connection: any, chatId: number) => {
+const insertChatId = (connection: PoolConnection, chatId: number): void => {
   const query = `
         INSERT INTO Chat (chat_id)
         VALUES (${chatId});
     `;
-  const [chatIdRows] = await connection.query(query);
-  return chatIdRows;
+  connection.query(query);
 };
 
-const getAllChatId = async (connection: any) => {
+const getAllChatId = (connection: PoolConnection) => {
   const query = `
         SELECT chat_id
         FROM Chat;
     `;
-  const [chat_idRows] = await connection.query(query);
+  const chat_idRows = connection.query(query);
   return chat_idRows;
 };
 
-const deleteChatId = async (connection: any, chat_id: number) => {
+const deleteChatId = (connection: PoolConnection, chat_id: number): void => {
   const query = `
         DELETE FROM Chat
         WHERE chat_id = "${chat_id}";
     `;
 
-  await connection.query(query);
+  connection.query(query);
 };
 
 export default {
