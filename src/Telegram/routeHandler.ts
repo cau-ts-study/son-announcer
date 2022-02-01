@@ -7,13 +7,15 @@ import {
 } from "./interfaces/telegramInterfaces";
 import { deleteChatId, insertChatId } from "./updateController";
 
-export const messageHandler = async (params: any) => {
-  const { update_id, message }: { update_id: number; message: Message } =
-    params;
+export const messageHandler = async (params: {
+  updated_id: number;
+  message: Message;
+}) => {
+  const { message } = params;
 
   // command
   if (message.entities) {
-    entityHandler(message);
+    await entityHandler(message);
   }
   // image
 
@@ -26,9 +28,9 @@ export const memberStatusHandler = async (params: {
   update_id: number;
   my_chat_member: ChatMemberUpdated;
 }) => {
-  const { update_id, my_chat_member } = params;
+  const { my_chat_member } = params;
   const chat_id: number = my_chat_member.from.id;
-  const updatedStatus: MemberStatus = my_chat_member.new_chat_member.status!;
+  const updatedStatus: MemberStatus = my_chat_member.new_chat_member.status;
 
   switch (updatedStatus) {
     case MemberStatus.BANNED:
@@ -37,16 +39,18 @@ export const memberStatusHandler = async (params: {
   }
 };
 
-const entityHandler = (message: Message): void => {
+const entityHandler = async (message: Message) => {
   const content: string = message.text as string;
   const parsedList: string[] | null = entityParser(content);
   const chatId: number = message.from!.id;
+  const command: string | undefined = parsedList.shift();
 
-  for (let entity of message.entities!) {
+  for (const entity of message.entities!) {
     switch (entity.type) {
       case EntityType.BOT_COMMAND:
-        const command: string = parsedList.shift() as string;
-        commandHandler({ command, chatId });
+        if (typeof command === "string") {
+          await commandHandler({ command, chatId });
+        }
         break;
     }
   }
@@ -54,10 +58,10 @@ const entityHandler = (message: Message): void => {
 
 const entityParser = (content: string): string[] => {
   const contentList: string[] = content.split(" ");
-  const commandRegex: RegExp = /^\/[a-z0-9]+$/i;
-  const parsedList: string[] = new Array();
+  const commandRegex = /^\/[a-z0-9]+$/i;
+  const parsedList: string[] = new Array<string>();
 
-  for (let contentIter of contentList) {
+  for (const contentIter of contentList) {
     const regexRes: RegExpExecArray | null = commandRegex.exec(contentIter);
 
     if (regexRes) {
