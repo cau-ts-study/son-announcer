@@ -1,9 +1,11 @@
 import axios from "axios";
 import dotenv from "dotenv";
 
+import { ProcessEnv } from "../../../config/globalInterfaces";
+
 dotenv.config();
 
-const { BOT_TOKEN } = process.env;
+const { BOT_TOKEN } = process.env as ProcessEnv;
 
 const TelegramAPI = axios.create({
   baseURL: `https://api.telegram.org/bot${BOT_TOKEN}/`,

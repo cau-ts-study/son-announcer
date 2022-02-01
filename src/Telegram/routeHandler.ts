@@ -8,7 +8,7 @@ import {
 import { deleteChatId, insertChatId } from "./updateController";
 
 export const messageHandler = async (params: {
-  updated_id: number;
+  update_id: number;
   message: Message;
 }) => {
   const { message } = params;
