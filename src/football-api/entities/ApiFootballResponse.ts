@@ -13,10 +13,23 @@ interface LineUpData {
   substitutes: LineUpPlayer[]
 }
 
-interface GetUpcomingMatchResponse {
+interface PlayerStatistics {
+  games: { minutes: number, rating: string }
+  goals: { total: number | null, assists: number | null }
+}
+
+interface RatingData {
+  players: { player: {id: number}, statistics: PlayerStatistics[] }[]
+}
+
+interface UpcomingMatchResponse {
   data: { response?: Array<Match>, errors?: any }
 }
 
-interface GetLineUpResponse {
+interface LineUpResponse {
   data: { response?: LineUpData[], errors?: any }
+}
+
+interface RatingResponse {
+  data: { response?: RatingData[], errors?: any }
 }

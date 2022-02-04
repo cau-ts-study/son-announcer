@@ -7,7 +7,7 @@ import { ErrorMessage } from "./entities/ErrorMessage";
 import { MatchEvent } from "./entities/MatchEvent";
 import { resolve } from "path/posix";
 import { MatchStatistics } from "./entities/MatchStatistics";
-import { LINEUP, LINEUP_TYPE } from "./entities/TelegramInterface";
+import { LINEUP, LINEUP_TYPE, RATING } from "./entities/TelegramInterface";
 import { start } from "repl";
 
 export default class ApiFootballDataGetter implements FootballDataGetter {
@@ -35,7 +35,7 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     };
     const options = { params, headers: this.headers }
     const url = "https://v3.football.api-sports.io/fixtures"
-    const response = await this.apiHandler.requestData(url, options) as GetUpcomingMatchResponse;
+    const response = await this.apiHandler.requestData(url, options) as UpcomingMatchResponse;
     if (response && response.data.response) {
       const data = response.data.response
       const matchesOfTeam = data.filter((match) => (match.teams.home.id == team || match.teams.away.id == team));
@@ -56,7 +56,7 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     };
     const options = { params, headers: this.headers }
     const url = "https://v3.football.api-sports.io/fixtures/lineups"
-    const response = await this.apiHandler.requestData(url, options) as GetLineUpResponse;
+    const response = await this.apiHandler.requestData(url, options) as LineUpResponse;
     if (response && response.data.response) {
       const data = response.data.response;
       const target = data[0].team.id == team ? 0 : 1;
@@ -89,8 +89,29 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     return new Promise(() => null)
   }
 
-  public getRating(): Promise<MatchStatistics | ErrorMessage> {
-    return new Promise(() => null)
+  public async getRating(matchId: number, team: number, playerId: number): Promise<RATING | ErrorMessage> {
+    const params = {
+      fixture: matchId,
+      team: team
+    };
+    const options = { params, headers: this.headers };
+    const url = "https://v3.football.api-sports.io/fixtures/players"
+    const response = await this.apiHandler.requestData(url, options) as RatingResponse;
+    if (response && response.data.response) {
+      const data = response.data.response[0].players;
+      const playerStatistics = data.filter((statistics) => statistics.player.id == playerId)[0];
+      const goal = playerStatistics.statistics[0].goals.total ? playerStatistics.statistics[0].goals.total : 0;
+      const assist = playerStatistics.statistics[0].goals.assists ? playerStatistics.statistics[0].goals.assists : 0;
+      const Rating: RATING = {
+        rating: Number(playerStatistics.statistics[0].games.rating),
+        goal,
+        assist,
+        playtime: playerStatistics.statistics[0].games.minutes
+      }
+      return Rating;
+    }
+    console.log(response.data.errors)
+    return { msg: "error"}
   }
 
   private getDate(): [string, string] {

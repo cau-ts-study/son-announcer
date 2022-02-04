@@ -21,8 +21,11 @@ class App {
     // const upcomingMatch = await this.footballDataGetter.getUpcomingMatch(IDs.teams.tottenham);
     // console.log(upcomingMatch);
     
-    const lineUp = await this.footballDataGetter.getLineUp(IDs.teams.tottenham, 710720, IDs.players.Son);
-    console.log(lineUp);
+    // const lineUp = await this.footballDataGetter.getLineUp(IDs.teams.tottenham, 710720, IDs.players.Son);
+    // console.log(lineUp);
+
+    const rating = await this.footballDataGetter.getRating(710720, IDs.teams.tottenham, 244);
+    console.log(rating);
   }
 }
 
