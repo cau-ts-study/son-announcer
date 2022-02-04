@@ -37,6 +37,9 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     const url = "https://v3.football.api-sports.io/fixtures"
     const response = await this.apiHandler.requestData(url, options) as UpcomingMatchResponse;
     if (response && response.data.response) {
+      if (response.data.response.length == 0) {
+        return { msg: "no data"}
+      }
       const data = response.data.response
       const matchesOfTeam = data.filter((match) => (match.teams.home.id == team || match.teams.away.id == team));
       const matchSchedulesOfTeam = matchesOfTeam.map(((match) => { return {
@@ -58,6 +61,9 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     const url = "https://v3.football.api-sports.io/fixtures/lineups"
     const response = await this.apiHandler.requestData(url, options) as LineUpResponse;
     if (response && response.data.response) {
+      if (response.data.response.length == 0) {
+        return { msg: "no data"}
+      }
       const data = response.data.response;
       const target = data[0].team.id == team ? 0 : 1;
       const enemy = 1 - target;
@@ -98,6 +104,9 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     const url = "https://v3.football.api-sports.io/fixtures/players"
     const response = await this.apiHandler.requestData(url, options) as RatingResponse;
     if (response && response.data.response) {
+      if (response.data.response.length == 0) {
+        return { msg: "no data"}
+      }
       const data = response.data.response[0].players;
       const playerStatistics = data.filter((statistics) => statistics.player.id == playerId)[0];
       const goal = playerStatistics.statistics[0].goals.total ? playerStatistics.statistics[0].goals.total : 0;
