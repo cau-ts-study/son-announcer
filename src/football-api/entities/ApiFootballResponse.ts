@@ -13,6 +13,14 @@ interface LineUpData {
   substitutes: LineUpPlayer[]
 }
 
+interface EventData {
+  time: { elapsed: number }
+  player: { id: number, name: string }
+  assist: { id: number, name: string }
+  type: string
+  detail: string
+}
+
 interface PlayerStatistics {
   games: { minutes: number, rating: string }
   goals: { total: number | null, assists: number | null }
@@ -28,6 +36,10 @@ interface UpcomingMatchResponse {
 
 interface LineUpResponse {
   data: { response?: LineUpData[], errors?: any }
+}
+
+interface EventResponse {
+  data: { response?: EventData[], errors?: any }
 }
 
 interface RatingResponse {

@@ -46,8 +46,8 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
       matchSchedulesOfTeam.sort((a, b) => a.date.getTime()  - b.date.getTime())
       return matchSchedulesOfTeam[0]
     }
-    console.log(response.data.errors)
-    return { msg: "error"}
+    console.log(response.data.errors);
+    return { msg: "error"};
   }
 
   public async getLineUp(team: number, matchId: number, playerId: number): Promise<LINEUP | ErrorMessage> {
@@ -84,24 +84,23 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
       const result: LINEUP = { time, type, lineup, opponent }
       return result;
     }
-    console.log(response.data.errors)
-    return { msg: "error"}
+    console.log(response.data.errors);
+    return { msg: "error"};
   }
 
-  public async getEvent(matchId: number, playerId: number): Promise<MatchEvent[] | ErrorMessage> {
+  public async getEvent(matchId: number, playerId: number): Promise<EventData[] | ErrorMessage> {
     const params = {
       fixture: matchId
     };
     const options = { params, headers: this.headers }
     const url = "https://v3.football.api-sports.io/fixtures/lineups"
-    const response = await this.apiHandler.requestData(url, options) as LineUpResponse;
+    const response = await this.apiHandler.requestData(url, options) as EventResponse;
     if (response && response.data.response) {
-      if (response.data.response.length == 0) {
-        return { msg: "no data"}
-      }
+      const data = response.data.response;
+      return data;
     }
-    console.log(response.data.errors)
-    return { msg: "error"}
+    console.log(response.data.errors);
+    return { msg: "error"};
   }
 
   public async getRating(matchId: number, team: number, playerId: number): Promise<RATING | ErrorMessage> {
