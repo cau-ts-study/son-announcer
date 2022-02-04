@@ -1,5 +1,6 @@
 import { AppConfig } from "./AppConfig";
 import IDs from "./data/IDs";
+import { LINEUP } from "./entities/TelegramInterface";
 import ApiHandler from "./interfaces/ApiHandler";
 import FootballDataGetter from "./interfaces/FootballDataGetter";
 
@@ -17,8 +18,11 @@ class App {
   }
 
   async start() {
-    const upcomingMatch = await this.footballDataGetter.getUpcomingMatch(IDs.teams.tottenham);
-    console.log(upcomingMatch);
+    // const upcomingMatch = await this.footballDataGetter.getUpcomingMatch(IDs.teams.tottenham);
+    // console.log(upcomingMatch);
+    
+    const lineUp = await this.footballDataGetter.getLineUp(IDs.teams.tottenham, 710720, IDs.players.Son);
+    console.log(lineUp);
   }
 }
 

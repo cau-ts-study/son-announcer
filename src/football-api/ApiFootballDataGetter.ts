@@ -7,15 +7,8 @@ import { ErrorMessage } from "./entities/ErrorMessage";
 import { MatchEvent } from "./entities/MatchEvent";
 import { resolve } from "path/posix";
 import { MatchStatistics } from "./entities/MatchStatistics";
-
-interface Match {
-  teams: { home: { id: number}, away: { id: number} }
-  fixture: {id: number, date: string}
-}
-
-interface Response {
-  data: { response?: Array<Match>, errors?: any }
-}
+import { LINEUP, LINEUP_TYPE } from "./entities/TelegramInterface";
+import { start } from "repl";
 
 export default class ApiFootballDataGetter implements FootballDataGetter {
   private apiHandler: ApiHandler;
@@ -42,9 +35,8 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     };
     const options = { params, headers: this.headers }
     const url = "https://v3.football.api-sports.io/fixtures"
-    const response = await this.apiHandler.requestData(url, options) as Response;
+    const response = await this.apiHandler.requestData(url, options) as GetUpcomingMatchResponse;
     if (response && response.data.response) {
-      console.log(response.data.response[0].fixture)
       const data = response.data.response
       const matchesOfTeam = data.filter((match) => (match.teams.home.id == team || match.teams.away.id == team));
       const matchSchedulesOfTeam = matchesOfTeam.map(((match) => { return {
@@ -58,8 +50,39 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     return { msg: "error"}
   }
 
-  public getLineUp(): Promise<LineUp | ErrorMessage> {
-    return new Promise(() => null)
+  public async getLineUp(team: number, matchId: number, playerId: number): Promise<LINEUP | ErrorMessage> {
+    const params = {
+      fixture: matchId
+    };
+    const options = { params, headers: this.headers }
+    const url = "https://v3.football.api-sports.io/fixtures/lineups"
+    const response = await this.apiHandler.requestData(url, options) as GetLineUpResponse;
+    if (response && response.data.response) {
+      const data = response.data.response;
+      const target = data[0].team.id == team ? 0 : 1;
+      const enemy = 1 - target;
+      const UpcomingMatch = await this.getUpcomingMatch(team) as UpcomingMatch;
+      const time = UpcomingMatch.date;
+      const startXI = data[target].startXI;
+      const substitutes = data[target].substitutes;
+      let type: LINEUP_TYPE;
+      if ( startXI.filter((player) => player.player.number == playerId).length == 1 ) {
+        type = LINEUP_TYPE.STARTING;
+      } else {
+        if (substitutes.filter((player) => player.player.number == playerId).length == 1) {
+          type = LINEUP_TYPE.BENCH;
+        } else {
+          type = LINEUP_TYPE.EXCLUDED;
+        }
+      }
+      const lineupData = startXI.map((player) => player.player.number.toString() + ". " + player.player.name)
+      const lineup = lineupData.join("\n");
+      const opponent = data[enemy].team.name;
+      const result: LINEUP = { time, type, lineup, opponent }
+      return result;
+    }
+    console.log(response.data.errors)
+    return { msg: "error"}
   }
 
   public getEvent(): Promise<MatchEvent | ErrorMessage> {

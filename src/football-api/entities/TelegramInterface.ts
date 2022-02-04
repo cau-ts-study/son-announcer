@@ -5,7 +5,7 @@ export interface EVENT {
 }
 
 export interface LINEUP {
-    time: number;
+    time: Date;
     type: LINEUP_TYPE;
     lineup: string;
     opponent: string;
