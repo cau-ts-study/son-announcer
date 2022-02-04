@@ -2,13 +2,10 @@ import FootballDataGetter from "./interfaces/FootballDataGetter";
 import dotenv from "dotenv";
 import ApiHandler from "./interfaces/ApiHandler";
 import { UpcomingMatch } from "./entities/UpcomingMatch";
-import { LineUp } from "./entities/LineUp";
 import { ErrorMessage } from "./entities/ErrorMessage";
 import { MatchEvent } from "./entities/MatchEvent";
 import { resolve } from "path/posix";
-import { MatchStatistics } from "./entities/MatchStatistics";
 import { LINEUP, LINEUP_TYPE, RATING } from "./entities/TelegramInterface";
-import { start } from "repl";
 
 export default class ApiFootballDataGetter implements FootballDataGetter {
   private apiHandler: ApiHandler;
@@ -91,8 +88,20 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     return { msg: "error"}
   }
 
-  public getEvent(): Promise<MatchEvent | ErrorMessage> {
-    return new Promise(() => null)
+  public async getEvent(matchId: number, playerId: number): Promise<MatchEvent[] | ErrorMessage> {
+    const params = {
+      fixture: matchId
+    };
+    const options = { params, headers: this.headers }
+    const url = "https://v3.football.api-sports.io/fixtures/lineups"
+    const response = await this.apiHandler.requestData(url, options) as LineUpResponse;
+    if (response && response.data.response) {
+      if (response.data.response.length == 0) {
+        return { msg: "no data"}
+      }
+    }
+    console.log(response.data.errors)
+    return { msg: "error"}
   }
 
   public async getRating(matchId: number, team: number, playerId: number): Promise<RATING | ErrorMessage> {
