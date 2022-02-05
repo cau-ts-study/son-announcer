@@ -23,6 +23,7 @@ export interface EventParams {
 export enum Commands {
   Start = "/start",
   Exit = "/exit",
+  GetAll = "/getall",
 }
 
 export enum FootballEvents {
