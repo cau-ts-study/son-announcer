@@ -18,8 +18,8 @@ class App {
   }
 
   async start() {
-    // const upcomingMatch = await this.footballDataGetter.getUpcomingMatch(IDs.teams.tottenham);
-    // console.log(upcomingMatch);
+    const upcomingMatch = await this.footballDataGetter.getUpcomingMatch(IDs.teams.tottenham);
+    console.log(upcomingMatch);
     
     // const lineUp = await this.footballDataGetter.getLineUp(IDs.teams.tottenham, 710720, IDs.players.Son);
     // console.log(lineUp);
@@ -27,12 +27,12 @@ class App {
     // const rating = await this.footballDataGetter.getRating(710720, IDs.teams.tottenham, 244);
     // console.log(rating);
 
-    let matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
-    console.log(matchEvent)
-    matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
-    console.log(matchEvent)
-    matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
-    console.log(matchEvent)
+    // let matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
+    // console.log(matchEvent)
+    // matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
+    // console.log(matchEvent)
+    // matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
+    // console.log(matchEvent)
   }
 }
 

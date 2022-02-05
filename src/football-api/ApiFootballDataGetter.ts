@@ -11,7 +11,6 @@ import { isString } from "util";
 export default class ApiFootballDataGetter implements FootballDataGetter {
   private apiHandler: ApiHandler;
   private headers: object;
-  private KR_TIME_DIFF = 9 * 60 * 60 * 1000;
   private events: String[] = [];
   private goals: number = 0;
   private endCount: number = 0;
@@ -26,12 +25,9 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
   }
 
   public async getUpcomingMatch(team: number): Promise< UpcomingMatch | ErrorMessage> {
-    const [startDate, endDate] = this.getDate();
     const params = {
-      season: 2021,
-      league: 39, 
-      from: startDate,
-      to: endDate,
+      team: 47,
+      next: 1,
       timezone: "Asia/Seoul",
     };
     const options = { params, headers: this.headers }
@@ -42,13 +38,11 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
         return { msg: "no data"}
       }
       const data = response.data.response
-      const matchesOfTeam = data.filter((match) => (match.teams.home.id == team || match.teams.away.id == team));
-      const matchSchedulesOfTeam = matchesOfTeam.map(((match) => { return {
-        ID: match.fixture.id, 
-        date: new Date((new Date(match.fixture.date)).getTime() + this.KR_TIME_DIFF)
-      } }))
-      matchSchedulesOfTeam.sort((a, b) => a.date.getTime()  - b.date.getTime())
-      return matchSchedulesOfTeam[0]
+      const nextMatch = {
+        ID: data[0].fixture.id,
+        date: new Date((new Date(data[0].fixture.date)).getTime())
+      }
+      return nextMatch
     }
     console.log(response.data.errors);
     return { msg: "error"};
@@ -218,16 +212,6 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     }
     console.log(response.data.errors)
     return { msg: "error"}
-  }
-
-  private getDate(): [string, string] {
-    const now = new Date();
-    const end = new Date();
-    now.setDate(now.getDate());
-    end.setMonth(now.getMonth() + 1);
-    const startDate = now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2) + "-" + ("0" + (now.getDate())).slice(-2);
-    const endDate = end.getFullYear() + "-" + ("0" + (end.getMonth() + 1)).slice(-2) + "-" + ("0" + (end.getDate())).slice(-2);
-    return [startDate, endDate];
   }
 
 }
