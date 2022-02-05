@@ -7,7 +7,7 @@ const getByChatId = async (connection: PoolConnection, chatId: number) => {
         WHERE chat_id = ${chatId};
     `;
 
-  const [chatIdRows, buff] = await connection.query(query);
+  const [chatIdRows] = await connection.query(query);
 
   return chatIdRows;
 };
@@ -25,7 +25,7 @@ const getAllChatId = async (connection: PoolConnection) => {
         SELECT chat_id
         FROM Chat;
     `;
-  const [chatIdRows, buff] = await connection.query(query);
+  const [chatIdRows] = await connection.query(query);
   return chatIdRows;
 };
 
@@ -35,7 +35,7 @@ const deleteChatId = async (connection: PoolConnection, chat_id: number) => {
         WHERE chat_id = "${chat_id}";
     `;
 
-  const [result, buff] = await connection.query(query);
+  await connection.query(query);
 };
 
 export default {
