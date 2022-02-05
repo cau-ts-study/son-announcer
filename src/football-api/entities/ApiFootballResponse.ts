@@ -1,6 +1,6 @@
 interface Match {
   teams: { home: { id: number}, away: { id: number} }
-  fixture: {id: number, date: string}
+  fixture: { id: number, date: string, status: {short: string} }
 }
 
 interface LineUpPlayer {
