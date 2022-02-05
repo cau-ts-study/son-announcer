@@ -1,10 +1,10 @@
-import { RowDataPacket } from "mysql2/typings/mysql/lib/protocol/packets";
+import { ChatRowDataPacket } from "./interfaces/interfaces";
 import updateService from "./updateService";
 
 const insertChatId = async (chatId: number) => {
   try {
     const getChatIdRes = await updateService.getByChatId(chatId);
-    const packet = getChatIdRes as RowDataPacket;
+    const packet = getChatIdRes as ChatRowDataPacket[];
 
     if (!packet[0]) {
       await updateService.insertChatId(chatId);
@@ -22,10 +22,13 @@ const insertChatId = async (chatId: number) => {
 const getAllChatId = async () => {
   try {
     const getAllchatIdRes = await updateService.getAllChatId();
-    const packet = getAllchatIdRes as RowDataPacket;
+    const packet = getAllchatIdRes as ChatRowDataPacket[];
 
-    console.log(packet);
-    return getAllchatIdRes;
+    const result: number[] = packet.map((packetIter: ChatRowDataPacket) => {
+      return packetIter.chat_id;
+    });
+
+    return result;
   } catch (err) {
     console.error(err);
   }
@@ -34,7 +37,7 @@ const getAllChatId = async () => {
 const deleteChatId = async (chatId: number) => {
   try {
     const getChatIdRes = await updateService.getByChatId(chatId);
-    const packet = getChatIdRes as RowDataPacket;
+    const packet = getChatIdRes as ChatRowDataPacket[];
 
     if (packet[0]) {
       await updateService.deleteChatId(chatId);
