@@ -18,14 +18,25 @@ class App {
   }
 
   async start() {
-    // const upcomingMatch = await this.footballDataGetter.getUpcomingMatch(IDs.teams.tottenham);
-    // console.log(upcomingMatch);
+    // 다음경기 시간 받아오기
+    const upcomingMatch = await this.footballDataGetter.getUpcomingMatch(IDs.teams.tottenham);
+    console.log(upcomingMatch);
     
-    // const lineUp = await this.footballDataGetter.getLineUp(IDs.teams.tottenham, 710720, IDs.players.Son);
-    // console.log(lineUp);
+    // 라인업 받아오기
+    const lineUp = await this.footballDataGetter.getLineUp(IDs.teams.tottenham, 710720, IDs.players.Son);
+    console.log(lineUp);
 
+    // 평점 받아오기
     const rating = await this.footballDataGetter.getRating(710720, IDs.teams.tottenham, 244);
     console.log(rating);
+
+    // 이벤트 받아오기
+    let matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
+    console.log(matchEvent)
+    matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
+    console.log(matchEvent)
+    matchEvent = await this.footballDataGetter.getNewEvents(815150, 18778);
+    console.log(matchEvent)
   }
 }
 
