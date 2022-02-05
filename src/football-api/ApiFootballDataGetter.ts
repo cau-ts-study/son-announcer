@@ -70,10 +70,10 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
       const startXI = data[target].startXI;
       const substitutes = data[target].substitutes;
       let type: LINEUP_TYPE;
-      if ( startXI.filter((player) => player.player.number == playerId).length == 1 ) {
+      if ( startXI.filter((player) => player.player.id == playerId).length == 1 ) {
         type = LINEUP_TYPE.STARTING;
       } else {
-        if (substitutes.filter((player) => player.player.number == playerId).length == 1) {
+        if (substitutes.filter((player) => player.player.id == playerId).length == 1) {
           type = LINEUP_TYPE.BENCH;
         } else {
           type = LINEUP_TYPE.EXCLUDED;
@@ -112,7 +112,7 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
       playerEvents.forEach((event) => {
         const isMain = (event.player.id == playerId);
         const stringifiedEvent = JSON.stringify(event);
-        if (this.events.filter((event) => event == stringifiedEvent).length == 1) {
+        if (this.events.filter((event) => event == stringifiedEvent).length == 2) {
           let type:FIXTURE_TYPE;
           switch(event.type) {
             case "Goal":
@@ -130,11 +130,11 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
                 type = FIXTURE_TYPE.RC;
               }
               break
-            case "Subst":
+            case "subst":
               if (isMain) {
-                type = FIXTURE_TYPE.SUBOUT;
-              } else {
                 type = FIXTURE_TYPE.SUBIN;
+              } else {
+                type = FIXTURE_TYPE.SUBOUT;
               }
               break
             case "Var":
@@ -157,13 +157,14 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
       });
       if (matchEvent.events.length == 0) {
         const status = await this.getMatchStatus(matchId);
+        console.log("match status: " + status)
         if (typeof status == 'string') {
           if (["FT","AET","PEN","SUSP","INT","PST","CANC","ABD","AWD","WO"].includes(status)) {
             this.endCount += 1;
           }
         } else { this.endCount += 1; }
       }
-      if (this.endCount >= 2) {
+      if (this.endCount >= 3) {
         matchEvent.live = false;
       }
       return matchEvent;

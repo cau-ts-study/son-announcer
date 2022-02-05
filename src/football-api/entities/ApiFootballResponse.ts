@@ -4,7 +4,7 @@ interface Match {
 }
 
 interface LineUpPlayer {
-  player: { number: number, name: string }
+  player: { id: number, number: number, name: string }
 }
 
 interface LineUpData {
