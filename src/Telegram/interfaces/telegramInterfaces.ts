@@ -2,7 +2,7 @@
 export interface Update {
   update_id: number;
   message?: Message;
-  // edited_message?: EditedMessage;
+  edited_message?: Message;
   my_chat_member?: ChatMemberUpdated;
 }
 
@@ -15,8 +15,6 @@ export interface Message {
   entities?: MessageEntity[];
   caption?: string;
 }
-
-// export interface EditedMessage {}
 
 export interface ChatMemberUpdated {
   chat: Chat;

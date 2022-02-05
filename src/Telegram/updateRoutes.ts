@@ -7,7 +7,9 @@ const router = express.Router();
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.post("/", async (req: Request, res: Response) => {
-  const { update_id, message, my_chat_member } = req.body as Update;
+  const { update_id, message, my_chat_member, edited_message } =
+    req.body as Update;
+
   console.log(req.body);
 
   // Handle Message Content
@@ -21,8 +23,9 @@ router.post("/", async (req: Request, res: Response) => {
   }
 
   // Handle edit message
-  // if (edited_message) {
-  // }
+  if (edited_message) {
+    console.log(edited_message);
+  }
 
   return res.send("success");
 });
