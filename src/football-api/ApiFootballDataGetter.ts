@@ -26,7 +26,7 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
 
   public async getUpcomingMatch(team: number): Promise< UpcomingMatch | ErrorMessage> {
     const params = {
-      team: 47,
+      team: team,
       next: 1,
       timezone: "Asia/Seoul",
     };
@@ -89,7 +89,7 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
     return { msg: "error"};
   }
 
-  public async getEvents(matchId: number, playerId: number): Promise<EventData[] | ErrorMessage> {
+  public async getEvents(matchId: number): Promise<EventData[] | ErrorMessage> {
     const params = {
       fixture: matchId
     };
@@ -105,7 +105,7 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
   }
 
   public async getNewEvents(matchId: number, playerId: number): Promise<MatchEvent | ErrorMessage> {
-    const data = await this.getEvents(matchId, playerId);
+    const data = await this.getEvents(matchId);
     if (!("msg" in data)) {
       const matchEvent:MatchEvent = {live: true, events: []}
       const playerEvents = data.filter((event) => ((event.player.id == playerId) || (event.assist.id == playerId)) && event.detail !== "Goal confirmed")
