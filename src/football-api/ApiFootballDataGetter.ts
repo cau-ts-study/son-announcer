@@ -100,7 +100,7 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
       fixture: matchId
     };
     const options = { params, headers: this.headers }
-    const url = "https://v3.football.api-sports.io/fixtures/lineups"
+    const url = "https://v3.football.api-sports.io/fixtures/events"
     const response = await this.apiHandler.requestData(url, options) as EventResponse;
     if (response && response.data.response) {
       const data = response.data.response;
@@ -164,7 +164,7 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
       if (matchEvent.events.length == 0) {
         const status = await this.getMatchStatus(matchId);
         if (typeof status == 'string') {
-          if (status in ["FT","AET","PEN","SUSP","INT","PST","CANC","ABD","AWD","WO"]) {
+          if (["FT","AET","PEN","SUSP","INT","PST","CANC","ABD","AWD","WO"].includes(status)) {
             this.endCount += 1;
           }
         } else { this.endCount += 1; }
@@ -180,12 +180,12 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
 
   public async getMatchStatus(matchId: number): Promise<String | ErrorMessage> {
     const params = {
-      fixture: matchId
+      id: matchId
     };
     const options = { params, headers: this.headers };
     const url = "https://v3.football.api-sports.io/fixtures"
     const response = await this.apiHandler.requestData(url, options) as UpcomingMatchResponse;
-    if (response && response.data.response) {
+    if (response && response.data.response && response.data.response.length > 0) {
       const data = response.data.response
       return data[0].fixture.status.short;
     }
