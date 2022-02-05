@@ -1,3 +1,5 @@
+import { RowDataPacket } from "mysql2";
+
 // interfaces
 export interface sendPhotoAPIParams {
   chatId: number;
@@ -19,6 +21,10 @@ export interface EventParams {
   };
 }
 
+export interface ChatRowDataPacket extends RowDataPacket {
+  chat_id: number;
+}
+
 // enums
 export enum Commands {
   Start = "/start",
@@ -33,14 +39,3 @@ export enum FootballEvents {
   QUADRUPLE,
   QUINTUPLE,
 }
-
-const SINGLE_URL =
-  "https://img.khan.co.kr/news/2020/08/23/l_2020082401002530900204221.jpg";
-const DOUBLE_URL =
-  "https://img.sbs.co.kr/newimg/news/20181224/201264134_1280.jpg";
-const TRIPLE_URL =
-  "http://www.footballist.co.kr/news/photo/202009/127130_52775_2423.jpg";
-
-const SINGLE_CAPTION = "손흥민 골 !";
-const DOUBLE_CAPTION = "손흥민 멅티 골 !";
-const TRIPLE_CAPTION = "손흥민 해트트릭 !";

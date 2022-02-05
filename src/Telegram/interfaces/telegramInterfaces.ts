@@ -22,7 +22,7 @@ export interface ChatMemberUpdated {
   date: number;
   old_chat_member: ChatMember;
   new_chat_member: ChatMember;
-  invite_link?: any;
+  invite_link?: string;
 }
 
 export interface User {
