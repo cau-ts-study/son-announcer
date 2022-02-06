@@ -1,4 +1,9 @@
-import { ChatRowDataPacket } from "./interfaces/interfaces";
+import { sendMessage } from "./api/fetch";
+import {
+  ChatRowDataPacket,
+  sendMessageAPIParams,
+} from "./interfaces/interfaces";
+import { TelegramMessages } from "./api/messages";
 import updateService from "./updateService";
 
 const insertChatId = async (chatId: number) => {
@@ -14,6 +19,27 @@ const insertChatId = async (chatId: number) => {
     }
 
     return packet;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const checkChatId = async (chat_id: number) => {
+  try {
+    const getChatIdRes = await updateService.getByChatId(chat_id);
+    const packet = getChatIdRes as ChatRowDataPacket[];
+    const params: sendMessageAPIParams = {
+      chat_id,
+      text: "",
+    };
+
+    if (packet[0]) {
+      params.text = TelegramMessages.USER_FOLLOWING;
+    } else {
+      params.text = TelegramMessages.USER_NOT_FOLLOWING;
+    }
+
+    await sendMessage(params);
   } catch (err) {
     console.error(err);
   }
@@ -52,4 +78,4 @@ const deleteChatId = async (chatId: number) => {
   }
 };
 
-export { insertChatId, getAllChatId, deleteChatId };
+export { insertChatId, getAllChatId, deleteChatId, checkChatId };

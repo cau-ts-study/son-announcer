@@ -2,23 +2,16 @@ import { RowDataPacket } from "mysql2";
 
 // interfaces
 export interface sendPhotoAPIParams {
-  chatId: number;
+  chat_id: number;
   photo: string;
   caption?: string;
   parseMode?: string;
 }
 
 export interface sendMessageAPIParams {
-  chatId: number;
+  chat_id: number;
   text: string;
   parseMode?: string;
-}
-
-export interface EventParams {
-  [type: string]: {
-    url?: string;
-    content: string;
-  };
 }
 
 export interface ChatRowDataPacket extends RowDataPacket {
@@ -30,6 +23,7 @@ export enum Commands {
   Start = "/start",
   Exit = "/exit",
   GetAll = "/getall",
+  Check = "/check",
 }
 
 export enum FootballEvents {
