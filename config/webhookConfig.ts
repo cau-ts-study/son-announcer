@@ -15,6 +15,10 @@ export const webHookInit = async () => {
   const params = {
     url: WEBHOOK_URL,
   };
-  const res = await axios.get(`${TELEGRAM_API}/setWebhook`, { params });
-  console.log("Webhook status: ", res.data);
+  try {
+    const res = await axios.get(`${TELEGRAM_API}/setWebhook`, { params });
+    console.log("Webhook status: ", res.data);
+  } catch (err) {
+    console.error(err);
+  }
 };
