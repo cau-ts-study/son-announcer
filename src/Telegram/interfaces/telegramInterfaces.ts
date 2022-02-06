@@ -2,7 +2,7 @@
 export interface Update {
   update_id: number;
   message?: Message;
-  // edited_message?: EditedMessage;
+  edited_message?: Message;
   my_chat_member?: ChatMemberUpdated;
 }
 
@@ -16,15 +16,13 @@ export interface Message {
   caption?: string;
 }
 
-// export interface EditedMessage {}
-
 export interface ChatMemberUpdated {
   chat: Chat;
   from: User;
   date: number;
   old_chat_member: ChatMember;
   new_chat_member: ChatMember;
-  invite_link?: any;
+  invite_link?: string;
 }
 
 export interface User {
