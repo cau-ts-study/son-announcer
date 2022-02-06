@@ -7,13 +7,11 @@ export default class AxiosApiHandler implements ApiHandler {
     options: AxiosRequestConfig<object>
   ): Promise<any> {
     try {
-      const response = await axios.get(url, options)
-      return response
+      const response = await axios.get(url, options);
+      return response;
     } catch (error) {
       console.log(error);
       return error;
     }
   }
 }
-
-

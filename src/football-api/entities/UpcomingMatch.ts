@@ -1,4 +1,4 @@
-export interface UpcomingMatch { 
-  ID: number; 
+export interface UpcomingMatch {
+  ID: number;
   date: Date;
 }

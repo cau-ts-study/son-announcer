@@ -10,5 +10,4 @@ export class AppConfig {
   public footballDataGetter(apiHandler: ApiHandler): ApiFootballDataGetter {
     return new ApiFootballDataGetter(apiHandler);
   }
-
 }

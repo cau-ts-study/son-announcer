@@ -1,3 +1,4 @@
+import { start } from "repl";
 import { AppConfig } from "./AppConfig";
 import IDs from "./data/IDs";
 import { LINEUP } from "./entities/TelegramInterface";
@@ -13,7 +14,9 @@ class App {
   constructor() {
     this.appConfig = new AppConfig();
     this.apiHandler = this.appConfig.apiHandler();
-    this.footballDataGetter = this.appConfig.footballDataGetter(this.apiHandler);
+    this.footballDataGetter = this.appConfig.footballDataGetter(
+      this.apiHandler
+    );
     this.IDs = IDs;
   }
 
@@ -21,7 +24,7 @@ class App {
     // 다음경기 시간 받아오기
     // const upcomingMatch = await this.footballDataGetter.getUpcomingMatch(49);
     // console.log(upcomingMatch);
-    
+
     // 라인업 받아오기
     // const lineUp = await this.footballDataGetter.getLineUp(49, 824593, 907);
     // console.log(lineUp);
@@ -42,4 +45,4 @@ class App {
 
 const app = new App();
 
-app.start();
+void app.start();
