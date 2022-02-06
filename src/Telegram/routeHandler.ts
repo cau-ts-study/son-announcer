@@ -5,7 +5,13 @@ import {
   Message,
   MemberStatus,
 } from "./interfaces/telegramInterfaces";
-import { deleteChatId, getAllChatId, insertChatId } from "./updateController";
+
+import {
+  deleteChatId,
+  getAllChatId,
+  insertChatId,
+  checkChatId,
+} from "./updateController";
 
 export const messageHandler = async (params: {
   update_id: number;
@@ -85,6 +91,10 @@ const commandHandler = async (params: { command: string; chatId: number }) => {
 
     case Commands.GetAll:
       await getAllChatId();
+      break;
+
+    case Commands.Check:
+      await checkChatId(chatId);
       break;
   }
 };
