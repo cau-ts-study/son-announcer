@@ -34,12 +34,13 @@ class App {
     // console.log(rating);
 
     // 이벤트 받아오기
-    let matchEvent = await this.footballDataGetter.getNewEvents(824593, 2278);
+    const matchEvent = await this.footballDataGetter.getNewEvents(719530, 203224);
     console.log(matchEvent);
-    matchEvent = await this.footballDataGetter.getNewEvents(824593, 2278);
-    console.log(matchEvent);
-    matchEvent = await this.footballDataGetter.getNewEvents(824593, 2278);
-    console.log(matchEvent);
+    setInterval(async () => {
+      const matchEvent = await this.footballDataGetter.getNewEvents(719530, 203224);
+      console.log("--------------------------------------------------------------")
+      console.log(matchEvent);
+    }, 5000)
   }
 }
 

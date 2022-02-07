@@ -11,6 +11,7 @@ import {
   LINEUP_TYPE,
   RATING,
 } from "./entities/TelegramInterface";
+import { platform } from "os";
 
 export default class ApiFootballDataGetter implements FootballDataGetter {
   private apiHandler: ApiHandler;
@@ -18,6 +19,8 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
   private events: string[] = [];
   private goals = 0;
   private endCount = 0;
+  private playerEventCount = 0;
+  private eventCount = 0;
 
   public constructor(apiHandler: ApiHandler) {
     dotenv.config();
@@ -78,6 +81,8 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
       this.events.length = 0;
       this.goals = 0;
       this.endCount = 0;
+      this.playerEventCount = 0;
+      this.eventCount = 0;
       const data = response.data.response;
       const target = data[0].team.id == team ? 0 : 1;
       const enemy = 1 - target;
@@ -138,62 +143,61 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
   ): Promise<MatchEvent | ErrorMessage> {
     const data = await this.getEvents(matchId);
     if (!("msg" in data)) {
+      const simplifiedData = data.map((event) => event.time.elapsed.toString() + " " + event.player.name + " " + event.type + " with " + event.assist.name)
+      console.log(simplifiedData.join("\n"))
       const matchEvent: MatchEvent = { live: true, events: [] };
       const playerEvents = data.filter(
         (event) =>
           (event.player.id == playerId || event.assist.id == playerId) &&
           event.detail !== "Goal confirmed"
       );
-      playerEvents.forEach((event) => {
+      const newPlayerEvents = playerEvents.slice(this.playerEventCount);
+      this.playerEventCount += newPlayerEvents.length;
+      newPlayerEvents.forEach((event) => {
         const isMain = event.player.id == playerId;
-        const stringifiedEvent = JSON.stringify(event);
-        if (
-          this.events.filter((event) => event == stringifiedEvent).length == 2
-        ) {
-          let type: FIXTURE_TYPE;
-          switch (event.type) {
-            case "Goal":
-              if (isMain) {
-                this.goals += 1;
-                type = FIXTURE_TYPE.GOAL;
-              } else {
-                type = FIXTURE_TYPE.ASSIST;
-              }
-              break;
-            case "Card":
-              if (event.detail == "Yellow Card") {
-                type = FIXTURE_TYPE.YC;
-              } else {
-                type = FIXTURE_TYPE.RC;
-              }
-              break;
-            case "subst":
-              if (isMain) {
-                type = FIXTURE_TYPE.SUBIN;
-              } else {
-                type = FIXTURE_TYPE.SUBOUT;
-              }
-              break;
-            case "Var":
-              type = FIXTURE_TYPE.GOALCANCELLED;
-              this.goals -= 1;
-              break;
-            default:
-              return { msg: "error" };
-          }
-          const fixture: FIXTURE = {
-            time: event.time.elapsed,
-            type: type,
-          };
-          if (fixture.type == FIXTURE_TYPE.GOAL) {
-            fixture.goalCount = this.goals;
-          }
-          matchEvent.events.push(fixture);
+        let type: FIXTURE_TYPE;
+        switch (event.type) {
+          case "Goal":
+            if (isMain) {
+              this.goals += 1;
+              type = FIXTURE_TYPE.GOAL;
+            } else {
+              type = FIXTURE_TYPE.ASSIST;
+            }
+            break;
+          case "Card":
+            if (event.detail == "Yellow Card") {
+              type = FIXTURE_TYPE.YC;
+            } else {
+              type = FIXTURE_TYPE.RC;
+            }
+            break;
+          case "subst":
+            if (isMain) {
+              type = FIXTURE_TYPE.SUBIN;
+            } else {
+              type = FIXTURE_TYPE.SUBOUT;
+            }
+            break;
+          case "Var":
+            type = FIXTURE_TYPE.GOALCANCELLED;
+            this.goals -= 1;
+            break;
+          default:
+            return { msg: "error" };
         }
-        this.events.push(stringifiedEvent);
+        const fixture: FIXTURE = {
+          time: event.time.elapsed,
+          type: type,
+        };
+        if (fixture.type == FIXTURE_TYPE.GOAL) {
+          fixture.goalCount = this.goals;
+        }
+        matchEvent.events.push(fixture);
       });
-      if (matchEvent.events.length == 0) {
+      if (data.length == this.eventCount) {
         const status = await this.getMatchStatus(matchId);
+        // const status = "2H"
         if (typeof status == "string") {
           console.log("match status: " + status);
           if (
@@ -216,7 +220,8 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
           this.endCount += 1;
         }
       }
-      if (this.endCount >= 3) {
+      this.eventCount = data.length;
+      if (this.endCount >= 2) {
         matchEvent.live = false;
       }
       return matchEvent;
