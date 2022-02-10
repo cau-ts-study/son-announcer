@@ -189,9 +189,9 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
             break;
           case "subst":
             if (isMain) {
-              type = FIXTURE_TYPE.SUBIN;
-            } else {
               type = FIXTURE_TYPE.SUBOUT;
+            } else {
+              type = FIXTURE_TYPE.SUBIN;
             }
             break;
           case "Var":
