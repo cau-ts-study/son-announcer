@@ -11,7 +11,13 @@ import {
   LINEUP_TYPE,
   RATING,
 } from "./entities/TelegramInterface";
-import { platform } from "os";
+import {
+  EventData,
+  EventResponse,
+  LineUpResponse,
+  RatingResponse,
+  UpcomingMatchResponse,
+} from "./entities/ApiFootballResponse";
 
 export default class ApiFootballDataGetter implements FootballDataGetter {
   private apiHandler: ApiHandler;
@@ -143,8 +149,17 @@ export default class ApiFootballDataGetter implements FootballDataGetter {
   ): Promise<MatchEvent | ErrorMessage> {
     const data = await this.getEvents(matchId);
     if (!("msg" in data)) {
-      const simplifiedData = data.map((event) => event.time.elapsed.toString() + " " + event.player.name + " " + event.type + " with " + event.assist.name)
-      console.log(simplifiedData.join("\n"))
+      const simplifiedData = data.map(
+        (event) =>
+          event.time.elapsed.toString() +
+          " " +
+          event.player.name +
+          " " +
+          event.type +
+          " with " +
+          event.assist.name
+      );
+      console.log(simplifiedData.join("\n"));
       const matchEvent: MatchEvent = { live: true, events: [] };
       const playerEvents = data.filter(
         (event) =>

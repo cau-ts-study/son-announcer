@@ -1,19 +1,19 @@
-interface Match {
+export interface Match {
   teams: { home: { id: number }; away: { id: number } };
   fixture: { id: number; date: string; status: { short: string } };
 }
 
-interface LineUpPlayer {
+export interface LineUpPlayer {
   player: { id: number; number: number; name: string };
 }
 
-interface LineUpData {
+export interface LineUpData {
   team: { id: number; name: string };
   startXI: LineUpPlayer[];
   substitutes: LineUpPlayer[];
 }
 
-interface EventData {
+export interface EventData {
   time: { elapsed: number };
   player: { id: number; name: string };
   assist: { id: number; name: string };
@@ -21,27 +21,34 @@ interface EventData {
   detail: string;
 }
 
-interface PlayerStatistics {
+export interface Statistics {
+  player: {
+    id: number;
+  };
+  statistics: PlayerStatistics[];
+}
+
+export interface PlayerStatistics {
   games: { minutes: number; rating: string };
   goals: { total: number | null; assists: number | null };
 }
 
-interface RatingData {
+export interface RatingData {
   players: { player: { id: number }; statistics: PlayerStatistics[] }[];
 }
 
-interface UpcomingMatchResponse {
+export interface UpcomingMatchResponse {
   data: { response?: Array<Match>; errors?: any };
 }
 
-interface LineUpResponse {
+export interface LineUpResponse {
   data: { response?: LineUpData[]; errors?: any };
 }
 
-interface EventResponse {
+export interface EventResponse {
   data: { response?: EventData[]; errors?: any };
 }
 
-interface RatingResponse {
+export interface RatingResponse {
   data: { response?: RatingData[]; errors?: any };
 }
